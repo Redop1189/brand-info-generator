@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Insights Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <style>
+        body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    }
+
+    .headline {
+        color: #09090B;
+        text-align: center;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px; /* 133.333% */
+        letter-spacing: -0.48px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    input {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    input[type="text"] {
+        color: #09090B;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+    }
+
+    input, button {
+        padding: 10px;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+    }
+
+    button {
+        color: white;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid var(--Button-inner-glow, rgba(255, 255, 255, 0.30));
+        background: radial-gradient(100% 100% at 50% 0%, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.00) 100%), #4E3BC9;
+        box-shadow: 0px 0px 0px 1px #2B2DB8;
+    }
+
+    button:hover {
+        background-color: #3D33C0;
+    }
+
+    .loader, .result {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 360px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-self: stretch;
+    }
+
+</style>
+</head>
+
+<body>
+    <div class="main-container">
+    <h1 class="headline">Enter Brand Name</h1>
+    <form id="brandForm" class="form">
+        <input type="text" id="brandName" placeholder="Beepkart" required>
+        <button type="submit">Generate</button>
+    </form>
+    </div>
+    <div class="loader" style="display: none;">Loading...</div>
+    <div class="result" style="display: none;"></div>
+
+
+
+
+
+
+
+    <script src="script.js"></script>
+    <script>document.getElementById('brandForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const brandNameValue = document.getElementById('brandName').value;
+        document.querySelector('.loader').style.display = 'block';
+        document.querySelector('.result').style.display = 'none';
+    
+        fetch('https://hook.us2.make.com/a4ot7go8tcj2tbx4dlx4zkfjndyoagv5', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ brand: brandNameValue })
+        })
+        .then(response => response.text())
+        .then(textOutput => {
+            document.querySelector('.loader').style.display = 'none';
+            const resultDiv = document.querySelector('.result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = textOutput;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.querySelector('.loader').style.display = 'none';
+        });
+    });
+    </script>
+</body>
+</html>
