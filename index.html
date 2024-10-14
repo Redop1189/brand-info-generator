@@ -115,32 +115,33 @@
 
 
     <script src="script.js"></script>
-    <script>document.getElementById('brandForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const brandNameValue = document.getElementById('brandName').value;
-        document.querySelector('.loader').style.display = 'block';
-        document.querySelector('.result').style.display = 'none';
+    <script>
+document.getElementById('brandForm').addEventListener('submit', function(event) {
+    event.preventDefault();
     
-        fetch('https://hook.us2.make.com/a4ot7go8tcj2tbx4dlx4zkfjndyoagv5', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ brand: brandNameValue })
-        })
-        .then(response => response.text())
-        .then(textOutput => {
-            document.querySelector('.loader').style.display = 'none';
-            const resultDiv = document.querySelector('.result');
-            resultDiv.style.display = 'block';
-            resultDiv.textContent = textOutput;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.querySelector('.loader').style.display = 'none';
-        });
+    const brandNameValue = document.getElementById('brandName').value;
+    document.querySelector('.loader').style.display = 'block';
+    document.querySelector('.result').style.display = 'none';
+
+    fetch('https://hook.us2.make.com/a4ot7go8tcj2tbx4dlx4zkfjndyoagv5', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ brand: brandNameValue })
+    })
+    .then(response => response.text())
+    .then(htmlOutput => {
+        document.querySelector('.loader').style.display = 'none';
+        const resultDiv = document.querySelector('.result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = htmlOutput;  // Use innerHTML for HTML content
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.querySelector('.loader').style.display = 'none';
     });
-    </script>
+});
+</script>
 </body>
 </html>
